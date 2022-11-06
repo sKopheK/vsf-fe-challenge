@@ -20,21 +20,19 @@ const useIpData = (apiKey: string) => {
       return data;
     }
 
-    const requestUrl = new URL(API_URL);
-    requestUrl.searchParams.append(API_KEY_PARAM, apiKey);
-    requestUrl.searchParams.append(
-      FIELDS_PARAM,
-      [
+    const requestParams = {
+      [API_KEY_PARAM]: apiKey,
+      [FIELDS_PARAM]: [
         FIELDS.LATITUDE,
         FIELDS.LONGITUDE,
         FIELDS.CITY,
         FIELDS.REGION,
         FIELDS.COUNTRY,
-      ].join()
-    );
+      ].join(),
+    };
     const apiService = new ApiService();
     return apiService
-      .get(requestUrl.toString())
+      .get(API_URL, requestParams)
       .then((responseJson) => {
         const responseData: UserLocation = {
           [FIELDS.LATITUDE]: responseJson.latitude,
