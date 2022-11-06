@@ -7,3 +7,9 @@ export const FALLBACK: UserLocation = {
   region: 'Valencia',
   country: 'Spain',
 };
+
+export const GEO_DB_API_URL =
+  'https://wft-geo-db.p.rapidapi.com/v1/geo/locations/{iso6709coords}/nearbyCities';
+export const GEO_DB_LIMIT_PARAM = 'limit';
+export const GEO_DB_LIMIT_VALUE = 1;
+export const GEO_DB_RAPID_API_KEY_HEADER = 'X-RapidAPI-Key';
