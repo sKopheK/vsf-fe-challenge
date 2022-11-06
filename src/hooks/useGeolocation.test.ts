@@ -1,10 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import useGeolocation from './useGeolocation';
 import { mockNavigatorGeolocation } from '../tests/utils/mockNavigatorGeolocation';
-import {
-  LATITUDE_FALLBACK,
-  LONGITUDE_FALLBACK,
-} from './useGeolocation.constants';
+import useGeolocation from './useGeolocation';
+import { GEOLOCATION_NOT_AVAILABLE } from './useGeolocation.constants';
 
 describe('useGeolocation Hook', () => {
   const { getCurrentPositionMock } = mockNavigatorGeolocation();
@@ -45,16 +42,13 @@ describe('useGeolocation Hook', () => {
     });
   });
 
-  it('should return fallback coords', () => {
+  it('should return unavailable geolocation', () => {
     getCurrentPositionMock.mockImplementation((_, handleError) => {
       return handleError(mockedError);
     });
 
     const { result } = renderHook(() => useGeolocation());
     expect(result.current).not.toBe(undefined);
-    expect(result.current).toEqual({
-      latitude: LATITUDE_FALLBACK,
-      longitude: LONGITUDE_FALLBACK,
-    });
+    expect(result.current).toEqual(GEOLOCATION_NOT_AVAILABLE);
   });
 });

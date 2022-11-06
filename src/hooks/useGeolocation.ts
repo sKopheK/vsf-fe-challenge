@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import {
-  LATITUDE_FALLBACK,
-  LONGITUDE_FALLBACK,
+  GEOLOCATION_NOT_AVAILABLE,
   MAX_AGE_BROWSER_CACHE,
   TIMEOUT,
 } from './useGeolocation.constants';
-import { CoordsLatLong } from './useGeolocation.types';
+import { GeolocationNotAvailable } from './useGeolocation.types';
+import { CoordsLatLong } from './useUserLocation.types';
 
 const useGeolocation = () => {
-  const [coords, setCoords] = useState<CoordsLatLong>();
+  const [coords, setCoords] = useState<
+    CoordsLatLong | GeolocationNotAvailable
+  >();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -17,10 +19,7 @@ const useGeolocation = () => {
         setCoords({ latitude, longitude });
       },
       () => {
-        setCoords({
-          latitude: LATITUDE_FALLBACK,
-          longitude: LONGITUDE_FALLBACK,
-        });
+        setCoords(GEOLOCATION_NOT_AVAILABLE);
       },
       {
         maximumAge: MAX_AGE_BROWSER_CACHE,

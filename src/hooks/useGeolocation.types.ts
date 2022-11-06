@@ -1,4 +1,3 @@
-export interface CoordsLatLong {
-  latitude: GeolocationCoordinates['latitude'];
-  longitude: GeolocationCoordinates['longitude'];
-}
+import { GEOLOCATION_NOT_AVAILABLE } from './useGeolocation.constants';
+
+export type GeolocationNotAvailable = typeof GEOLOCATION_NOT_AVAILABLE;
