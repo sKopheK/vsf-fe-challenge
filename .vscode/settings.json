@@ -3,5 +3,4 @@
         "source.fixAll": true
     },
     "editor.tabSize": 2,
-    "jestrunner.jestCommand": "yarn test --",
 }
