@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ApiService from 'services/Api';
 import {
   API_KEY_PARAM,
   API_URL,
@@ -31,13 +32,9 @@ const useIpData = (apiKey: string) => {
         FIELDS.COUNTRY,
       ].join()
     );
-    return fetch(requestUrl.toString())
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error('Invalid response status: ' + response.statusText);
-        }
-        return response.json();
-      })
+    const apiService = new ApiService();
+    return apiService
+      .get(requestUrl.toString())
       .then((responseJson) => {
         const responseData: UserLocation = {
           [FIELDS.LATITUDE]: responseJson.latitude,
