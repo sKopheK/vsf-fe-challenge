@@ -2,6 +2,9 @@
 
 Assignment: https://github.com/tobyj/feChallenge
 
+In order to make it fully work, rename `src/apiKeys.example.ts` to `src/apiKeys.ts` and fill in active API keys.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
