@@ -5,10 +5,10 @@ import {
   MAX_AGE_BROWSER_CACHE,
   TIMEOUT,
 } from './useGeolocation.constants';
-import { GeolocationLatLong } from './useGeolocation.types';
+import { CoordsLatLong } from './useGeolocation.types';
 
 const useGeolocation = () => {
-  const [coords, setCoords] = useState<GeolocationLatLong>();
+  const [coords, setCoords] = useState<CoordsLatLong>();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(

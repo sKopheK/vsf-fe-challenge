@@ -1,4 +1,4 @@
-export type GeolocationLatLong = {
+export interface CoordsLatLong {
   latitude: GeolocationCoordinates['latitude'];
   longitude: GeolocationCoordinates['longitude'];
-};
+}

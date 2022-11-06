@@ -24,6 +24,10 @@ describe('useGeolocation Hook', () => {
     message: '',
   };
 
+  beforeEach(() => {
+    getCurrentPositionMock.mockClear();
+  });
+
   it('should return empty coords', () => {
     const { result } = renderHook(() => useGeolocation());
     expect(result.current).toBe(undefined);
