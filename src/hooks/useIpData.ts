@@ -5,14 +5,14 @@ import {
   FIELDS,
   FIELDS_PARAM,
 } from './useIpData.constants';
-import { IpData } from './useIpData.types';
+import { UserLocation } from './useUserLocation.types';
 
 const useIpData = (apiKey: string) => {
   if (!apiKey) {
     throw new Error('Missing API key');
   }
 
-  const [data, setData] = useState<IpData>();
+  const [data, setData] = useState<UserLocation>();
 
   return async () => {
     if (data) {
@@ -39,7 +39,7 @@ const useIpData = (apiKey: string) => {
         return response.json();
       })
       .then((responseJson) => {
-        const responseData: IpData = {
+        const responseData: UserLocation = {
           [FIELDS.LATITUDE]: responseJson.latitude,
           [FIELDS.LONGITUDE]: responseJson.longitude,
           [FIELDS.CITY]: responseJson.city,
