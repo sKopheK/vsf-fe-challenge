@@ -47,38 +47,6 @@ describe('useUserLocation Hook', () => {
     });
   });
 
-  it('should call GeoDb with geolocation coords', async () => {
-    getCurrentPositionMock.mockImplementation((handleSuccess) => {
-      return handleSuccess({
-        coords: { latitude: FALLBACK.latitude, longitude: FALLBACK.longitude },
-      });
-    });
-
-    const { rerender } = renderHook(() => useUserLocation());
-    await waitFor(async () => {
-      rerender();
-
-      const geoDbUrl = GEO_DB_API_URL.replace(
-        /\{iso6709coords\}/,
-        [FALLBACK.latitude, FALLBACK.longitude].join(
-          FALLBACK.longitude >= 0 ? '+' : ''
-        )
-      );
-
-      const parsedUrl = new URL(geoDbUrl);
-      parsedUrl.searchParams.append(
-        GEO_DB_LIMIT_PARAM,
-        String(GEO_DB_LIMIT_VALUE)
-      );
-
-      expect(fetchMock).toHaveBeenCalledWith(parsedUrl.toString(), {
-        headers: new Headers({
-          [GEO_DB_RAPID_API_KEY_HEADER]: API_KEYS.RAPID,
-        }),
-      });
-    });
-  });
-
   it('should return city data from GeoDb', async () => {
     getCurrentPositionMock.mockImplementation((handleSuccess) => {
       return handleSuccess({
