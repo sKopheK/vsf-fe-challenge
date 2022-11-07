@@ -8,6 +8,8 @@ import {
   PARAM_API_KEY,
   PARAM_LATITUDE,
   PARAM_LONGITUDE,
+  PARAM_UNITS,
+  PARAM_UNITS_VALUE,
   STORAGE_EXPIRATION,
   STORAGE_KEY,
 } from './Weather.constants';
@@ -62,6 +64,7 @@ class WeatherService {
       [PARAM_API_KEY]: this.apiKey,
       [PARAM_LATITUDE]: latitude,
       [PARAM_LONGITUDE]: longitude,
+      [PARAM_UNITS]: PARAM_UNITS_VALUE,
     };
     const parsedUrl = new URL(API_URL);
     Object.keys(params).forEach((key) => {

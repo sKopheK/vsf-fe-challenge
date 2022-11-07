@@ -5,6 +5,8 @@ import {
   PARAM_API_KEY,
   PARAM_LATITUDE,
   PARAM_LONGITUDE,
+  PARAM_UNITS,
+  PARAM_UNITS_VALUE,
 } from './Weather.constants';
 import { WeatherData } from './Weather.types';
 
@@ -45,6 +47,7 @@ describe('Weather Service', () => {
       [PARAM_API_KEY]: 'myApiKey',
       [PARAM_LATITUDE]: 12.5,
       [PARAM_LONGITUDE]: -55,
+      [PARAM_UNITS]: PARAM_UNITS_VALUE,
     };
     const parsedUrl = new URL(API_URL);
     Object.keys(params).forEach((key) => {
