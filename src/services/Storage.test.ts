@@ -4,14 +4,17 @@ describe('Storage Service', () => {
   beforeEach(() => {
     localStorage.clear();
   });
+
   it('should store value', () => {
     const service = new StorageService();
     expect(() => service.set('random', 'test')).not.toThrow();
   });
+
   it('should return undefined when getting value from nonexisting key', () => {
     const service = new StorageService();
     expect(service.get('random')).toBeNull();
   });
+
   it('should return stored value', () => {
     const service = new StorageService();
     const key = 'random';
@@ -19,6 +22,14 @@ describe('Storage Service', () => {
     service.set(key, value);
     expect(service.get(key)).toBe(value);
   });
+
+  it('should return null for expired value', () => {
+    const service = new StorageService();
+    const key = 'key1';
+    service.set(key, 'a value', -1);
+    expect(service.get(key)).toBeNull();
+  });
+
   it('should clear stored value', () => {
     const service = new StorageService();
     const key = 'something';
@@ -26,6 +37,7 @@ describe('Storage Service', () => {
     service.clear(key);
     expect(service.get(key)).toBeNull();
   });
+
   it('should clear whole storage', () => {
     const service = new StorageService();
     const key1 = 'key1';
