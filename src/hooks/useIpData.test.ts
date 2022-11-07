@@ -58,7 +58,7 @@ describe('useIpData Hook', () => {
       expect(result2).toEqual(mockedCoords);
       const result3 = await hook.current();
       expect(result3).toEqual(mockedCoords);
-      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
     });
   });
 });
