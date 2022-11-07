@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, Container } from '@mui/material';
-import { filter } from 'lodash';
+import { filter, isUndefined } from 'lodash';
 import moment from 'moment';
 import { FC, useContext } from 'react';
 import {
@@ -58,7 +58,7 @@ const Layout: FC = () => {
             <Grid container xs={12} className={styles.main}>
               <Grid xs={6} className={styles.category}>
                 <ThermostatIcon color="error" />
-                {!data.temperature ? (
+                {isUndefined(data.temperature) ? (
                   <Skeleton width={50} />
                 ) : (
                   `${data.temperature?.toFixed(TEMPERATURE_DECIMALS)} ${
@@ -72,8 +72,8 @@ const Layout: FC = () => {
                 xs={6}
                 className={[styles.weatherType, styles.category].join(' ')}
               >
-                {!data.main ? (
-                  <Skeleton width={80} />
+                {isUndefined(data.main) ? (
+                  <Skeleton width={120} height="3em" />
                 ) : (
                   <>
                     <img
@@ -91,7 +91,11 @@ const Layout: FC = () => {
               Humidity
             </Grid>
             <Grid xs={3} className={styles.value}>
-              {!data.humidity ? <Skeleton width={40} /> : `${data.humidity} %`}
+              {isUndefined(data.humidity) ? (
+                <Skeleton width={40} />
+              ) : (
+                `${data.humidity} %`
+              )}
             </Grid>
 
             <Grid xs={9} className={styles.category}>
@@ -99,7 +103,7 @@ const Layout: FC = () => {
               Wind
             </Grid>
             <Grid xs={3} className={styles.value}>
-              {!data.windSpeed ? (
+              {isUndefined(data.windSpeed) ? (
                 <Skeleton width={70} />
               ) : (
                 `${data.windSpeed} m/s`
@@ -111,7 +115,7 @@ const Layout: FC = () => {
               Sunrise
             </Grid>
             <Grid xs={3} className={styles.value}>
-              {!data.sunrise ? (
+              {isUndefined(data.sunrise) ? (
                 <Skeleton width={40} />
               ) : (
                 moment(data.sunrise).format(TIME_FORMAT)
@@ -123,7 +127,7 @@ const Layout: FC = () => {
               Sunset
             </Grid>
             <Grid xs={3} className={styles.value}>
-              {!data.sunset ? (
+              {isUndefined(data.sunset) ? (
                 <Skeleton width={40} />
               ) : (
                 moment(data.sunset).format(TIME_FORMAT)
