@@ -9,7 +9,11 @@ import {
   UNIT_FARENHEIT_LABEL,
 } from './App.constants';
 import { AppContext } from './App.context';
-import { TEMPERATURE_DECIMALS, TIME_FORMAT } from './Layout.constants';
+import {
+  TEMPERATURE_DECIMALS,
+  TIME_FORMAT,
+  URL_IMG_WEATHER,
+} from './Layout.constants';
 
 import UnitSwitch from './UnitSwitch';
 
@@ -53,7 +57,7 @@ const Layout: FC = () => {
           <Grid container spacing={2.5}>
             <Grid container xs={12} className={styles.main}>
               <Grid xs={6} className={styles.category}>
-                <ThermostatIcon color="primary" />
+                <ThermostatIcon color="error" />
                 {!data.temperature ? (
                   <Skeleton width={50} />
                 ) : (
@@ -64,8 +68,21 @@ const Layout: FC = () => {
                   }`
                 )}
               </Grid>
-              <Grid xs={6} className={styles.weatherType}>
-                {!data.main ? <Skeleton width={80} /> : data.main}
+              <Grid
+                xs={6}
+                className={[styles.weatherType, styles.category].join(' ')}
+              >
+                {!data.main ? (
+                  <Skeleton width={80} />
+                ) : (
+                  <>
+                    <img
+                      src={URL_IMG_WEATHER.replace(/{code}/, data.icon ?? '')}
+                      className={styles.weatherIco}
+                    />
+                    {data.main}
+                  </>
+                )}
               </Grid>
             </Grid>
 

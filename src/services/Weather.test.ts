@@ -1,6 +1,7 @@
 import WeatherService from './Weather';
 import {
   API_URL,
+  MILISECOND,
   PARAM_API_KEY,
   PARAM_LATITUDE,
   PARAM_LONGITUDE,
@@ -8,17 +9,20 @@ import {
 import { WeatherData } from './Weather.types';
 
 const mockWeatherData = {
-  weather: {
-    main: 'Clouds',
-  },
+  weather: [
+    {
+      main: 'Clouds',
+      icon: '10d',
+    },
+  ],
   main: {
     temp: 282,
     humidity: 51,
   },
   wind: { speed: 1.75 },
   sys: {
-    sunrise: new Date(),
-    sunset: new Date(),
+    sunrise: 0,
+    sunset: 5,
   },
 };
 
@@ -63,11 +67,12 @@ describe('Weather Service', () => {
     const result = await weatherService.get(-55, 4);
     expect(result).toStrictEqual({
       temperature: mockWeatherData.main.temp,
-      main: mockWeatherData.weather.main,
+      main: mockWeatherData.weather[0].main,
+      icon: mockWeatherData.weather[0].icon,
       humidity: mockWeatherData.main.humidity,
       windSpeed: mockWeatherData.wind.speed,
-      sunrise: mockWeatherData.sys.sunrise,
-      sunset: mockWeatherData.sys.sunset,
+      sunrise: mockWeatherData.sys.sunrise * MILISECOND,
+      sunset: mockWeatherData.sys.sunset * MILISECOND,
     } as WeatherData);
   });
 

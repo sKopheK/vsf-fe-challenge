@@ -72,10 +72,11 @@ class WeatherService {
       const fetched: WeatherData = {
         temperature: get(data, 'main.temp', ''),
         main: get(data, 'weather[0].main', ''),
+        icon: get(data, 'weather[0].icon', ''),
         humidity: get(data, 'main.humidity', ''),
         windSpeed: get(data, 'wind.speed', ''),
-        sunrise: new Date(get(data, 'sys.sunrise', 0) * MILISECOND),
-        sunset: new Date(get(data, 'sys.sunset', 0) * MILISECOND),
+        sunrise: get(data, 'sys.sunrise', 0) * MILISECOND,
+        sunset: get(data, 'sys.sunset', 0) * MILISECOND,
       };
       this.storeData(fetched, latitude, longitude);
       return fetched;

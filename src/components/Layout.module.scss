@@ -24,7 +24,6 @@
 }
 
 .category {
-
   display: inline-flex;
   align-items: center;
   column-gap: .4em;
@@ -35,7 +34,11 @@
 }
 
 .weatherType {
-  text-align: right;
+  justify-content: flex-end;
+}
+
+.weatherIco {
+  max-width: 3em;
 }
 
 .main {
@@ -51,4 +54,5 @@
   }
 
   background-color: colors.$box-level-up-bg;
+  font-weight: bold;
 }
