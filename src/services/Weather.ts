@@ -4,6 +4,7 @@ import StorageService from 'services/Storage';
 import ApiService from './Api';
 import {
   API_URL,
+  MILISECOND,
   PARAM_API_KEY,
   PARAM_LATITUDE,
   PARAM_LONGITUDE,
@@ -70,11 +71,11 @@ class WeatherService {
     return this.apiService.get(parsedUrl.toString()).then((data) => {
       const fetched: WeatherData = {
         temperature: get(data, 'main.temp', ''),
-        main: get(data, 'weather.main', ''),
+        main: get(data, 'weather[0].main', ''),
         humidity: get(data, 'main.humidity', ''),
         windSpeed: get(data, 'wind.speed', ''),
-        sunrise: new Date(get(data, 'sys.sunrise', null)),
-        sunset: new Date(get(data, 'sys.sunset', null)),
+        sunrise: new Date(get(data, 'sys.sunrise', 0) * MILISECOND),
+        sunset: new Date(get(data, 'sys.sunset', 0) * MILISECOND),
       };
       this.storeData(fetched, latitude, longitude);
       return fetched;

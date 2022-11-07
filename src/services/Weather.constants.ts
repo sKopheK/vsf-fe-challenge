@@ -5,3 +5,5 @@ export const PARAM_API_KEY = 'appid';
 
 export const STORAGE_KEY = 'weatherData';
 export const STORAGE_EXPIRATION = 300000; // 5 minutes
+
+export const MILISECOND = 1000;
