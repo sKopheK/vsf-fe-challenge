@@ -7,6 +7,7 @@ import {
   PARAM_API_KEY,
   PARAM_LATITUDE,
   PARAM_LONGITUDE,
+  STORAGE_EXPIRATION,
   STORAGE_KEY,
 } from './Weather.constants';
 import { StoredWeatherData, WeatherData } from './Weather.types';
@@ -45,7 +46,8 @@ class WeatherService {
   private storeData(data: WeatherData, latitude: number, longitude: number) {
     this.storageService.set(
       STORAGE_KEY,
-      JSON.stringify({ ...data, latitude, longitude })
+      JSON.stringify({ ...data, latitude, longitude }),
+      STORAGE_EXPIRATION
     );
   }
 
