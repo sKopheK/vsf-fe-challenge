@@ -1,11 +1,15 @@
 import { OPEN_WEATHER_MAP } from 'apiKeys';
+import convertToCelsius from 'helpers/convertToCelsius';
 import useUserLocation from 'hooks/useUserLocation';
+import { createContext, useEffect, useMemo, useState, useRef } from 'react';
+import StorageService from 'services/Storage';
 import WeatherService from 'services/Weather';
 import { WeatherData } from 'services/Weather.types';
-
-import convertToCelsius from 'helpers/convertToCelsius';
-import { createContext, useEffect, useMemo, useState } from 'react';
-import { UNIT_CELSIUS, UNIT_FARENHEIT } from './App.constants';
+import {
+  UNIT_CELSIUS,
+  UNIT_FARENHEIT,
+  UNIT_STORAGE_KEY,
+} from './App.constants';
 import { AppContextModel, AppContextProps } from './App.types';
 
 const defaultContextValues: AppContextModel = {
@@ -25,11 +29,29 @@ const AppContextProvider: React.FC<AppContextProps> = (
     () => new WeatherService(OPEN_WEATHER_MAP),
     []
   );
+  const storageService = useMemo(() => new StorageService(), []);
   const [weatherData, setWeatherData] = useState<WeatherData>();
 
   const [unit, setUnit] = useState<AppContextModel['unit']>(
     defaultContextValues.unit as AppContextModel['unit']
   );
+
+  const firstLoad = useRef(true);
+
+  useEffect(() => {
+    const storedUnit = storageService.get(UNIT_STORAGE_KEY);
+    if (storedUnit) {
+      setUnit(JSON.parse(storedUnit));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!firstLoad.current) {
+      storageService.set(UNIT_STORAGE_KEY, JSON.stringify(unit));
+    } else {
+      firstLoad.current = false;
+    }
+  }, [unit]);
 
   useEffect(() => {
     if (userLocation) {
