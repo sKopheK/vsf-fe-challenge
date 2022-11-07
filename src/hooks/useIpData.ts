@@ -1,11 +1,13 @@
 import { get } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ApiService from 'services/Api';
+import StorageService from 'services/Storage';
 import {
   API_KEY_PARAM,
   API_URL,
   FIELDS,
   FIELDS_PARAM,
+  STORAGE_KEY,
 } from './useIpData.constants';
 import { UserLocation } from './useUserLocation.types';
 
@@ -15,6 +17,14 @@ const useIpData = (apiKey: string) => {
   }
 
   const [data, setData] = useState<UserLocation>();
+  const storageService = useMemo(() => new StorageService(), []);
+  const storedData = useMemo(() => storageService.get(STORAGE_KEY), []);
+
+  useEffect(() => {
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  }, [storedData]);
 
   return async () => {
     if (data) {
@@ -36,13 +46,14 @@ const useIpData = (apiKey: string) => {
       .get(API_URL, requestParams)
       .then((responseJson) => {
         const responseData: UserLocation = {
-          [FIELDS.LATITUDE]: get(responseJson, 'latitude'),
-          [FIELDS.LONGITUDE]: get(responseJson, 'longitude'),
-          [FIELDS.CITY]: get(responseJson, 'city'),
-          [FIELDS.REGION]: get(responseJson, 'region'),
-          [FIELDS.COUNTRY]: get(responseJson, 'country_name'),
+          latitude: get(responseJson, FIELDS.LATITUDE),
+          longitude: get(responseJson, FIELDS.LONGITUDE),
+          city: get(responseJson, FIELDS.CITY),
+          region: get(responseJson, FIELDS.REGION),
+          country: get(responseJson, FIELDS.COUNTRY),
         };
         setData(responseData);
+        storageService.set(STORAGE_KEY, JSON.stringify(responseData));
         return responseData;
       })
       .catch(() => {

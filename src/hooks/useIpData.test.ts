@@ -1,10 +1,14 @@
 import { renderHook, waitFor } from '@testing-library/react';
+import StorageService from 'services/Storage';
 import useIpData from './useIpData';
 import { FIELDS } from './useIpData.constants';
+import { UserLocation } from './useUserLocation.types';
 
 describe('useIpData Hook', () => {
   beforeEach(() => {
     fetchMock.resetMocks();
+    const storageService = new StorageService();
+    storageService.clear();
   });
 
   it('should throw error on missing API key', () => {
@@ -36,28 +40,41 @@ describe('useIpData Hook', () => {
     const { result: hook } = renderHook(() => useIpData('myCorrectApiKey'));
     const result = await hook.current();
     expect(result).toStrictEqual({
-      [FIELDS.LATITUDE]: mockedData.latitude,
-      [FIELDS.LONGITUDE]: mockedData.longitude,
-      [FIELDS.CITY]: mockedData.city,
-      [FIELDS.REGION]: mockedData.region,
-      [FIELDS.COUNTRY]: mockedData.country_name,
-    });
+      latitude: mockedData[FIELDS.LATITUDE],
+      longitude: mockedData[FIELDS.LONGITUDE],
+      city: mockedData[FIELDS.CITY],
+      region: mockedData[FIELDS.REGION],
+      country: mockedData[FIELDS.COUNTRY],
+    } as UserLocation);
   });
 
   it('should not call fetch when asking for data after first fetch request', async () => {
-    const mockedCoords = { latitude: 44, longitude: 15 };
-    fetchMock.mockResponse(JSON.stringify(mockedCoords));
+    const mockedResponse = {
+      [FIELDS.LATITUDE]: 9,
+      [FIELDS.LONGITUDE]: 5,
+      [FIELDS.CITY]: 'London',
+      [FIELDS.REGION]: 'Londonshire',
+      [FIELDS.COUNTRY]: 'UK',
+    };
+    const mockedData: UserLocation = {
+      latitude: mockedResponse[FIELDS.LATITUDE],
+      longitude: mockedResponse[FIELDS.LONGITUDE],
+      city: mockedResponse[FIELDS.CITY],
+      region: mockedResponse[FIELDS.REGION],
+      country: mockedResponse[FIELDS.COUNTRY],
+    };
+    fetchMock.mockResponse(JSON.stringify(mockedResponse));
     const { result: hook, rerender } = renderHook(() =>
       useIpData('myCorrectApiKey')
     );
     const result = await hook.current();
-    expect(result).toEqual(mockedCoords);
+    expect(result).toEqual(mockedData);
     await waitFor(async () => {
       rerender();
       const result2 = await hook.current();
-      expect(result2).toEqual(mockedCoords);
+      expect(result2).toEqual(mockedData);
       const result3 = await hook.current();
-      expect(result3).toEqual(mockedCoords);
+      expect(result3).toEqual(mockedData);
       expect(fetchMock).toHaveBeenCalledTimes(1);
     });
   });

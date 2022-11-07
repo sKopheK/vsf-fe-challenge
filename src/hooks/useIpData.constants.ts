@@ -6,5 +6,6 @@ export enum FIELDS {
   LONGITUDE = 'longitude',
   CITY = 'city',
   REGION = 'region',
-  COUNTRY = 'country',
+  COUNTRY = 'country_name',
 }
+export const STORAGE_KEY = 'ipData';
