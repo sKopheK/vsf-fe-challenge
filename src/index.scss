@@ -10,13 +10,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  color: colors.$text;
 }
 
 html {
-  background-color: colors.$page-bg;
+  background: {
+    image: url('/assets/bg.webp');
+    color: colors.$page-bg;
+    size: 100%;
+    position: center center;
+  }
 }

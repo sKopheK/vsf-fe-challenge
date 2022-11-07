@@ -1,0 +1,54 @@
+@use "/src/scss/colors.scss";
+
+.wrapper {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.title {
+  display: flex;
+}
+
+.header {
+  flex-grow: 1;
+}
+
+.heading {
+  font-size: 1.5rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.location {
+  font-size: .9rem;
+}
+
+.category {
+
+  display: inline-flex;
+  align-items: center;
+  column-gap: .4em;
+}
+
+.value {
+  text-align: right;
+}
+
+.weatherType {
+  text-align: right;
+}
+
+.main {
+  --Grid-columnSpacing: -10px;
+  --Grid-rowSpacing: -30px;
+  --Grid-nested-rowSpacing: 30px;
+
+  border: {
+    style: solid;
+    width: 1px;
+    radius: .3em;
+    color: colors.$border;
+  }
+
+  background-color: colors.$box-level-up-bg;
+}
