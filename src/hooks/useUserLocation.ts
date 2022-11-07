@@ -1,4 +1,5 @@
 import * as API_KEYS from 'apiKeys';
+import { get } from 'lodash';
 import { useEffect, useState } from 'react';
 import useGeoDb from './useGeoDb';
 import useGeolocation from './useGeolocation';
@@ -28,12 +29,11 @@ const useUserLocation = () => {
     } else if (geolocation) {
       getGeoDb(geolocation.latitude, geolocation.longitude)
         .then((geoDbData) => {
-          const { city, region, country } = geoDbData;
           setUserLocation({
             ...geolocation,
-            city,
-            region,
-            country,
+            city: get(geoDbData, 'city'),
+            region: get(geoDbData, 'region'),
+            country: get(geoDbData, 'country'),
           });
         })
         .catch(() => {

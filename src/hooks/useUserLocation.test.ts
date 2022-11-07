@@ -1,14 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import * as API_KEYS from 'apiKeys';
 import { mockNavigatorGeolocation } from 'tests/utils/mockNavigatorGeolocation';
 import useUserLocation from './useUserLocation';
-import {
-  FALLBACK,
-  GEO_DB_API_URL,
-  GEO_DB_LIMIT_PARAM,
-  GEO_DB_LIMIT_VALUE,
-  GEO_DB_RAPID_API_KEY_HEADER,
-} from './useUserLocation.constants';
+import { FALLBACK } from './useUserLocation.constants';
 
 describe('useUserLocation Hook', () => {
   const { getCurrentPositionMock } = mockNavigatorGeolocation();

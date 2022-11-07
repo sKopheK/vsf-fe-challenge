@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { useState } from 'react';
 import ApiService from 'services/Api';
 import {
@@ -35,11 +36,11 @@ const useIpData = (apiKey: string) => {
       .get(API_URL, requestParams)
       .then((responseJson) => {
         const responseData: UserLocation = {
-          [FIELDS.LATITUDE]: responseJson.latitude,
-          [FIELDS.LONGITUDE]: responseJson.longitude,
-          [FIELDS.CITY]: responseJson.city,
-          [FIELDS.REGION]: responseJson.region,
-          [FIELDS.COUNTRY]: responseJson.country_name,
+          [FIELDS.LATITUDE]: get(responseJson, 'latitude'),
+          [FIELDS.LONGITUDE]: get(responseJson, 'longitude'),
+          [FIELDS.CITY]: get(responseJson, 'city'),
+          [FIELDS.REGION]: get(responseJson, 'region'),
+          [FIELDS.COUNTRY]: get(responseJson, 'country_name'),
         };
         setData(responseData);
         return responseData;
