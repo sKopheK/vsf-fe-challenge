@@ -6,7 +6,6 @@ import {
   LIMIT_VALUE,
   RAPID_API_KEY_HEADER,
 } from './useGeoDb.constants';
-import useIpData from './useIpData';
 import { FALLBACK } from './useUserLocation.constants';
 
 const mockResponse = {
@@ -19,7 +18,7 @@ const mockResponse = {
   ],
 };
 
-describe('useIpData Hook', () => {
+describe('useGeoDb Hook', () => {
   beforeEach(() => {
     fetchMock.resetMocks();
   });
@@ -34,14 +33,13 @@ describe('useIpData Hook', () => {
     ).toThrow();
   });
 
-  it('should return empty result on invalid API key', async () => {
+  it('should throw on invalid API key', () => {
     fetchMock.mockResponse('', { status: 400 });
-    const { result: hook } = renderHook(() => useIpData('totallyWrongApiKey'));
-    const result = await hook.current();
-    expect(result).toBe(undefined);
+    const { result: hook } = renderHook(() => useGeoDb('totallyWrongApiKey'));
+    expect(() => hook.current(44, -44)).rejects.toThrow();
   });
 
-  it('should throw on invalid response', async () => {
+  it('should throw on invalid response', () => {
     fetchMock.mockResponse(JSON.stringify({ whatever: 'test' }));
 
     const apiKey = 'myCorrectApiKey';
