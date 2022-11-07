@@ -19,6 +19,7 @@ import InvertColorsIcon from '@mui/icons-material/InvertColors';
 import ThermostatIcon from '@mui/icons-material/Thermostat';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
 import Grid from '@mui/material/Unstable_Grid2';
+import Skeleton from 'react-loading-skeleton';
 
 import styles from './Layout.module.scss';
 
@@ -33,11 +34,15 @@ const Layout: FC = () => {
               <div className={styles.header}>
                 <h1 className={styles.heading}>{APP_TITLE}</h1>
                 <span className={styles.location}>
-                  {filter([
-                    data.city ?? '',
-                    data.region ?? '',
-                    data.country ?? '',
-                  ]).join(', ')}
+                  {!data.city ? (
+                    <Skeleton />
+                  ) : (
+                    filter([
+                      data.city ?? '',
+                      data.region ?? '',
+                      data.country ?? '',
+                    ]).join(', ')
+                  )}
                 </span>
               </div>
               <UnitSwitch />
@@ -49,14 +54,18 @@ const Layout: FC = () => {
             <Grid container xs={12} className={styles.main}>
               <Grid xs={6} className={styles.category}>
                 <ThermostatIcon color="primary" />
-                {`${data.temperature?.toFixed(TEMPERATURE_DECIMALS)} ${
-                  data.unit === UNIT_CELSIUS
-                    ? UNIT_CELSIUS_LABEL
-                    : UNIT_FARENHEIT_LABEL
-                }`}
+                {!data.temperature ? (
+                  <Skeleton width={50} />
+                ) : (
+                  `${data.temperature?.toFixed(TEMPERATURE_DECIMALS)} ${
+                    data.unit === UNIT_CELSIUS
+                      ? UNIT_CELSIUS_LABEL
+                      : UNIT_FARENHEIT_LABEL
+                  }`
+                )}
               </Grid>
               <Grid xs={6} className={styles.weatherType}>
-                {data.main}
+                {!data.main ? <Skeleton width={80} /> : data.main}
               </Grid>
             </Grid>
 
@@ -65,7 +74,7 @@ const Layout: FC = () => {
               Humidity
             </Grid>
             <Grid xs={3} className={styles.value}>
-              {`${data.humidity} %`}
+              {!data.humidity ? <Skeleton width={40} /> : `${data.humidity} %`}
             </Grid>
 
             <Grid xs={9} className={styles.category}>
@@ -73,7 +82,11 @@ const Layout: FC = () => {
               Wind
             </Grid>
             <Grid xs={3} className={styles.value}>
-              {`${data.windSpeed} m/s`}
+              {!data.windSpeed ? (
+                <Skeleton width={70} />
+              ) : (
+                `${data.windSpeed} m/s`
+              )}
             </Grid>
 
             <Grid xs={9} className={styles.category}>
@@ -81,7 +94,11 @@ const Layout: FC = () => {
               Sunrise
             </Grid>
             <Grid xs={3} className={styles.value}>
-              {moment(data.sunrise).format(TIME_FORMAT)}
+              {!data.sunrise ? (
+                <Skeleton width={40} />
+              ) : (
+                moment(data.sunrise).format(TIME_FORMAT)
+              )}
             </Grid>
 
             <Grid xs={9} className={styles.category}>
@@ -89,7 +106,11 @@ const Layout: FC = () => {
               Sunset
             </Grid>
             <Grid xs={3} className={styles.value}>
-              {moment(data.sunset).format(TIME_FORMAT)}
+              {!data.sunset ? (
+                <Skeleton width={40} />
+              ) : (
+                moment(data.sunset).format(TIME_FORMAT)
+              )}
             </Grid>
           </Grid>
         </CardContent>
