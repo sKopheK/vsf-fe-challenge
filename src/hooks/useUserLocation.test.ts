@@ -1,11 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { mockNavigatorGeolocation } from 'tests/utils/mockNavigatorGeolocation';
+import { getCurrentPositionMock } from 'tests/utils/mockNavigatorGeolocation';
 import useUserLocation from './useUserLocation';
 import { FALLBACK } from './useUserLocation.constants';
 
 describe('useUserLocation Hook', () => {
-  const { getCurrentPositionMock } = mockNavigatorGeolocation();
-
   beforeEach(() => {
     fetchMock.resetMocks();
   });

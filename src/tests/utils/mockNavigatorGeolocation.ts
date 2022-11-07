@@ -11,11 +11,11 @@ class GeolocationPositionErrorMock extends Error {
   }
 }
 
-export const mockNavigatorGeolocation = () => {
-  const clearWatchMock = jest.fn();
-  const getCurrentPositionMock = jest.fn();
-  const watchPositionMock = jest.fn();
+export const clearWatchMock = jest.fn();
+export const getCurrentPositionMock = jest.fn();
+export const watchPositionMock = jest.fn();
 
+export const mockNavigatorGeolocation = () => {
   const geolocation = {
     clearWatch: clearWatchMock,
     getCurrentPosition: getCurrentPositionMock,
@@ -25,9 +25,8 @@ export const mockNavigatorGeolocation = () => {
   Object.defineProperty(global.navigator, 'geolocation', {
     value: geolocation,
   });
+
   Object.defineProperty(global, 'GeolocationPositionError', {
     value: GeolocationPositionErrorMock,
   });
-
-  return { clearWatchMock, getCurrentPositionMock, watchPositionMock };
 };

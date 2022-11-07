@@ -1,11 +1,9 @@
 import { renderHook } from '@testing-library/react';
-import { mockNavigatorGeolocation } from '../tests/utils/mockNavigatorGeolocation';
+import { getCurrentPositionMock } from '../tests/utils/mockNavigatorGeolocation';
 import useGeolocation from './useGeolocation';
 import { GEOLOCATION_NOT_AVAILABLE } from './useGeolocation.constants';
 
 describe('useGeolocation Hook', () => {
-  const { getCurrentPositionMock } = mockNavigatorGeolocation();
-
   const mockedCoords: GeolocationCoordinates = {
     accuracy: 0,
     altitude: null,
